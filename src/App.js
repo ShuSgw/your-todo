@@ -1,10 +1,9 @@
 import React from "react";
-import Drawer from "./components/layout/drawer";
 
 const App = () => (
-  <Drawer>
+  <div>
     <div>hello</div>
-  </Drawer>
+  </div>
 );
 
 export default App;
