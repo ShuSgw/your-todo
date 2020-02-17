@@ -1,20 +1,32 @@
 import React from "react";
-import { ListGroup, ListGroupItem } from "reactstrap";
 
-const TodoList = () => (
-  <div>
-    <ListGroup>
-      <ListGroupItem className="justify-content-between">
-        Cras justo odio
-      </ListGroupItem>
-      <ListGroupItem className="justify-content-between">
-        Dapibus ac facilisis in
-      </ListGroupItem>
-      <ListGroupItem className="justify-content-between">
-        Morbi leo risus
-      </ListGroupItem>
-    </ListGroup>
-  </div>
-);
+import Todos from "./Todos";
+import AddTodo from "./AddTodo";
 
+class TodoList extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {
+      todo: ["first", "second", "third"],
+      selectedOption: undefined
+    };
+  }
+
+  handleAddTodo = e => {
+    e.preventDefault();
+    const typedTodo = e.target.elements[0].value.trim();
+    if (typedTodo) {
+      this.setState(() => ({ todo: [...this.state.todo, typedTodo] }));
+    }
+    e.target.elements[0].value = "";
+  };
+  render() {
+    return (
+      <div>
+        <AddTodo handleAddTodo={this.handleAddTodo} />
+        <Todos todos={this.state.todo}></Todos>
+      </div>
+    );
+  }
+}
 export default TodoList;
