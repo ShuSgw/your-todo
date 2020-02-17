@@ -1,14 +1,6 @@
 import React from "react";
 import { CustomPlaceholder } from "react-placeholder-image";
-import {
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  Button
-} from "reactstrap";
+import { Card, CardText, CardBody, CardSubtitle } from "reactstrap";
 
 const Profile = () => {
   return (

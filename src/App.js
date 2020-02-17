@@ -1,7 +1,7 @@
 import React from "react";
 // modules
 import Header from "./components/Header";
-import TodoList from "./components/Contents/Todos/TodoList";
+import TodoList from "./components/Contents/Todos/todoList";
 import Navigation from "./components/Navigation";
 import Profile from "./components/Contents/Profile";
 import CreateAccount from "./components/Account/CreateAccount";
