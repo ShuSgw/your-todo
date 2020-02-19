@@ -1,17 +1,30 @@
 import React from "react";
 import { ListGroupItem } from "reactstrap";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col, Button, Badge } from "reactstrap";
 
-const Todo = props => (
-  <ListGroupItem className="justify-content-between">
-    <Row>
-      <Col xs="7">{props.todo}</Col>
-      <Col xs="5">
-        <Button className="w-100 mb-1">Edit</Button>
-        <Button className="w-100">Delete</Button>
-      </Col>
-    </Row>
-  </ListGroupItem>
-);
+const Todo = props => {
+  const handleDelete = props.handleDelete;
+  return (
+    <ListGroupItem className="justify-content-between">
+      <Badge className="mb-2" pill>
+        {props.id}
+      </Badge>
+      <Row>
+        <Col xs="7">{props.title}</Col>
+        <Col xs="5">
+          <Button className="w-100 mb-1">Edit</Button>
+          <Button
+            className="w-100"
+            onClick={() => {
+              handleDelete(props.id);
+            }}
+          >
+            Delete
+          </Button>
+        </Col>
+      </Row>
+    </ListGroupItem>
+  );
+};
 
 export default Todo;
