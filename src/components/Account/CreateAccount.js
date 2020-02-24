@@ -15,6 +15,7 @@ class CreateAccount extends React.Component {
         console.log(error);
       });
   };
+
   render() {
     return (
       <Row xs="2">
