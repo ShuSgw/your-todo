@@ -3,6 +3,7 @@ import React from "react";
 import Todos from "./Todos";
 import AddTodo from "./AddTodo";
 import { db } from "../../../Firebase";
+import firebase from "../../../Firebase";
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -17,22 +18,27 @@ class TodoList extends React.Component {
     e.preventDefault();
     const typedTodo = e.target.elements[0].value.trim();
     if (typedTodo) {
-      const userRef = db.ref("users/KMry5zTzFrgaM9DWdtZWVOF7o3N2/");
-      const predictedID = db
-        .ref()
-        .child("users")
-        .push().key;
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          const uid = firebase.auth().currentUser.uid;
+          const userRef = db.ref(`users/${uid}`);
+          const predictedID = db
+            .ref()
+            .child("users")
+            .push().key;
 
-      userRef.push({ title: typedTodo }).then(() => {
-        this.setState(() => ({
-          todo: [
-            ...this.state.todo,
-            {
-              id: predictedID,
-              title: typedTodo
-            }
-          ]
-        }));
+          userRef.push({ title: typedTodo }).then(() => {
+            this.setState(() => ({
+              todo: [
+                ...this.state.todo,
+                {
+                  id: predictedID,
+                  title: typedTodo
+                }
+              ]
+            }));
+          });
+        }
       });
     }
     e.target.elements[0].value = "";
@@ -45,18 +51,23 @@ class TodoList extends React.Component {
     }));
   };
   componentDidMount() {
-    db.ref("users/KMry5zTzFrgaM9DWdtZWVOF7o3N2")
-      .once("value")
-      .then(snap => {
-        const todos = [];
-        snap.forEach(childSnap => {
-          todos.push({
-            id: childSnap.key,
-            title: childSnap.val().title
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const uid = firebase.auth().currentUser.uid;
+        db.ref(`users/${uid}`)
+          .once("value")
+          .then(snap => {
+            const todos = [];
+            snap.forEach(childSnap => {
+              todos.push({
+                id: childSnap.key,
+                title: childSnap.val().title
+              });
+            });
+            this.setState({ todo: todos });
           });
-        });
-        this.setState({ todo: todos });
-      });
+      }
+    });
     // .on("value", snap => {
     //   const todos = [];
     //   snap.forEach(childSnap => {
