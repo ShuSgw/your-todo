@@ -1,20 +1,26 @@
 import React from "react";
-import { CustomPlaceholder } from "react-placeholder-image";
-import { Card, CardText, CardBody, CardSubtitle } from "reactstrap";
+import { Card, CardBody, CardImg } from "reactstrap";
+import firebase from "../../Firebase";
 
 const Profile = () => {
+  const user = firebase.auth().currentUser;
+  const name = user.displayName;
+  const email = user.email;
+  const photoUrl = user.photoURL;
+
   return (
     <div>
-      <Card>
-        <CustomPlaceholder width={500} height={300} />
+      <Card style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center" }}>
+          <CardImg
+            style={{ maxWidth: "260px" }}
+            src={photoUrl}
+            alt="Profile Image"
+          />
+        </div>
         <CardBody>
-          <CardSubtitle>
-            <h3>Card subtitle</h3>
-          </CardSubtitle>
-          <CardText>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </CardText>
+          <h1>Name: {name}</h1>
+          <h5>Email: {email}</h5>
         </CardBody>
       </Card>
     </div>

@@ -21,34 +21,44 @@ class TodoList extends React.Component {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           const uid = firebase.auth().currentUser.uid;
-          const userRef = db.ref(`users/${uid}`);
-          const predictedID = db
-            .ref()
-            .child("users")
-            .push().key;
-
-          userRef.push({ title: typedTodo }).then(() => {
-            this.setState(() => ({
-              todo: [
-                ...this.state.todo,
-                {
-                  id: predictedID,
-                  title: typedTodo
-                }
-              ]
-            }));
-          });
+          const newID = db
+            .ref(`users/${uid}`)
+            .push()
+            .getKey();
+          db.ref(`users/${uid}/${newID}`)
+            .set({ title: typedTodo })
+            .then(() => {
+              this.setState(() => ({
+                todo: [
+                  ...this.state.todo,
+                  {
+                    id: newID,
+                    title: typedTodo
+                  }
+                ]
+              }));
+            });
         }
       });
     }
     e.target.elements[0].value = "";
   };
   handleDelete = id => {
-    this.setState(() => ({
-      todo: this.state.todo.filter(todo => {
-        return todo.id !== id;
-      })
-    }));
+    // db.ref('users').child('-LReyNSJ3rS9gi2tFfNk').remove();
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const uid = firebase.auth().currentUser.uid;
+        db.ref(`users/${uid}/${id}`)
+          .remove()
+          .then(() => {
+            this.setState(() => ({
+              todo: this.state.todo.filter(todo => {
+                return todo.id !== id;
+              })
+            }));
+          });
+      }
+    });
   };
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
@@ -68,16 +78,6 @@ class TodoList extends React.Component {
           });
       }
     });
-    // .on("value", snap => {
-    //   const todos = [];
-    //   snap.forEach(childSnap => {
-    //     todos.push({
-    //       id: childSnap.key,
-    //       title: childSnap.val().title
-    //     });
-    //   });
-    //   this.setState({ todo: todos });
-    // });
   }
   render() {
     return (

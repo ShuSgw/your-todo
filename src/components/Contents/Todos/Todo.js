@@ -12,7 +12,6 @@ const Todo = props => {
       <Row>
         <Col xs="7">{props.title}</Col>
         <Col xs="5">
-          <Button className="w-100 mb-1">Edit</Button>
           <Button
             className="w-100"
             onClick={() => {

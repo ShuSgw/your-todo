@@ -8,9 +8,7 @@ class Navigation extends React.Component {
     firebase
       .auth()
       .signOut()
-      .then(result => {
-        console.log(result);
-      })
+      .then(result => {})
       .catch(error => {
         console.log(error);
       });
@@ -25,10 +23,7 @@ class Navigation extends React.Component {
           <NavItem>
             <NavLink href="/todo">Todo</NavLink>
           </NavItem>
-          <NavItem>
-            <NavLink href="/create_account">Login / SignUp</NavLink>
-          </NavItem>
-          <NavItem>
+          <NavItem className="text-primary" style={{ cursor: "pointer" }}>
             <NavLink onClick={this.logout}>Logout</NavLink>
           </NavItem>
         </Nav>
