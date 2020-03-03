@@ -1,6 +1,6 @@
 # Your Todo
 
-A personal project using mainly  
+A personal project using mainly React.js
 see https://your-todo.firebaseapp.com/ for more details.
 
 **Tools**
